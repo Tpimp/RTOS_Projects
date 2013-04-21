@@ -230,6 +230,6 @@ static void prvSetupHardware(void)
                     CN16_PULLUP_ENABLE |
                     CN19_PULLUP_ENABLE);
 
-    initUart(UART1,9600);
+    EnableUart(UART1,9600);
 }
 

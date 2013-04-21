@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=lab 3
+PROJECTNAME=Shell Lab
 
 # Active Configuration
 DEFAULTCONF=default
