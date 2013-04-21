@@ -20,24 +20,24 @@
      }
  }
 
-  void UARTSendQueuedTask(UART_TX_DATA_t * task_data)
+  void UARTSendQueuedTask(xQueueHandle * message_queue)
   {
       char  MyMessage[50];
       while(1)
       {
 
-        portBASE_TYPE my_ret = xQueueReceive(task_data->My_Queue,
+        portBASE_TYPE my_ret = xQueueReceive(*message_queue,
                 MyMessage,
                 portMAX_DELAY);
         if (my_ret == pdTRUE)
         {
-            vUartPutStr(UART1, MyMessage, strlen(MyMessage));
+            vUartPutStr(MODULE_ENABLED, MyMessage, strlen(MyMessage));
         }
 
       }
   }
 
-  void UARTRxPoll(UART_RX_DATA_t * uart_rx_data)
+  void UARTRxPoll(xQueueHandle * message_queue)
   {
       short Current_Char = 0;
       char MyMessageBuffer[250];
@@ -45,13 +45,17 @@
       int bytes_recieved =0;
       while(1)
       {
-          while(!UARTReceivedDataIsAvailable(UART1))
+          while(!UARTReceivedDataIsAvailable(MODULE_ENABLED))
           {
               vTaskDelay(10 / portTICK_RATE_MS );
+              if(!UARTReceivedDataIsAvailable(MODULE_ENABLED))
+              {
+                  vTaskSuspend(NULL);
+              }
           }
-          while(bytes_recieved = UARTReceivedDataIsAvailable(UART1))
+          while(bytes_recieved = UARTReceivedDataIsAvailable(MODULE_ENABLED))
           {
-              recieved_char = UARTGetDataByte(UART1);
+              recieved_char = UARTGetDataByte(MODULE_ENABLED);
               switch(recieved_char)
               {
                   // Recieved STX (start of text)
@@ -61,7 +65,7 @@
                   {
                       //
                       MyMessageBuffer[Current_Char++] = '\0';
-                      xQueueSendToBack(uart_rx_data->My_Queue, MyMessageBuffer ,
+                      xQueueSendToBack(message_queue, MyMessageBuffer ,
                                        125 / portTICK_RATE_MS);
                       break; 
                   }
@@ -75,7 +79,7 @@
                   case 13:
                   {
                       MyMessageBuffer[Current_Char++] = '\0';
-                      xQueueSendToBack(uart_rx_data->My_Queue, MyMessageBuffer ,
+                      xQueueSendToBack(message_queue, MyMessageBuffer ,
                                        125 / portTICK_RATE_MS);
                       Current_Char = 0;
                       break;
