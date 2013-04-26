@@ -1,6 +1,7 @@
 #include "MainControl.h"
 #include "led.h"
 #include "string.h"
+
 void MainControl(void * CONTROL_DATA)
 {
     // system control params and
@@ -8,7 +9,6 @@ void MainControl(void * CONTROL_DATA)
     // create the task handle
     // create queue for message passing
     char MyMessage[50];
-    char RecievedMessage[255];
     strcpy(MyMessage,UART_STR);
     MyMessage[LED_NUM_POS] = MyData->LED_NUMBER;
     // 4 LED States ALL OFF, ONE ON, TWO ON, THREE ON
@@ -16,23 +16,7 @@ void MainControl(void * CONTROL_DATA)
     // 2 Key states Down or Up
     // 13 total state combinations (cant be suspended and off)
     while(1) // while the task is running
-    {
-        while(uxQueueMessagesWaiting(MyData->UART_RX_QUEUE))
-        {
-            portBASE_TYPE my_ret = xQueueReceive(MyData->UART_RX_QUEUE,
-                                                 RecievedMessage,
-                                                 0);
-            if(my_ret == pdTRUE)
-            {
-                int length_message= strlen(RecievedMessage);
-                int i = 0;
-                while( i < length_message)
-                {
-                    vUartPutC(UART1,RecievedMessage[i++]);
-                }
-            }
-
-        }
+    {    
         if(!BUTTON_DOWN) // if not waiting for a key to be released
         {
             // Scan for a keypress beginning with button 1
@@ -74,7 +58,7 @@ void MainControl(void * CONTROL_DATA)
                     // debounced and the button is still down
                     // button one pressed
                     // first send the message to uart
-                    xQueueSendToBack(MyData->UART_TX_QUEUE,
+                    xQueueSendToBack(MyData->UART_QUEUE,
                                      MyMessage,
                                      (10/ portTICK_RATE_MS));
                     // then switch to next task
@@ -93,29 +77,16 @@ void MainControl(void * CONTROL_DATA)
                 case 0:
                 {
                     BUTTON_DOWN = !mPORTDReadBits(BUTTON_ONE);
-                    if(!BUTTON_DOWN)
-                    {
-                        vTaskDelay( 10/ portTICK_RATE_MS); // debounce release
-                        BUTTON_DOWN = !mPORTDReadBits(BUTTON_ONE);
-                    }
                     break;
                 }
                 case 1:
                 {
                     BUTTON_DOWN = !mPORTDReadBits(BUTTON_TWO);
-                    {
-                        vTaskDelay( 10/ portTICK_RATE_MS); // debounce release
-                        BUTTON_DOWN = !mPORTDReadBits(BUTTON_TWO);
-                    }
                     break;
                 }
                 case 2:
                 {
                     BUTTON_DOWN = !mPORTDReadBits(BUTTON_THREE);
-                    {
-                        vTaskDelay( 10/ portTICK_RATE_MS); // debounce release
-                        BUTTON_DOWN = !mPORTDReadBits(BUTTON_THREE);
-                    }
                     break;
                 }
                 default : {BUTTON_DOWN = 0;break;}

@@ -30,12 +30,12 @@ ifeq ($(TYPE_IMAGE), DEBUG_RUN)
 IMAGE_TYPE=debug
 OUTPUT_SUFFIX=elf
 DEBUGGABLE_SUFFIX=elf
-FINAL_IMAGE=dist/${CND_CONF}/${IMAGE_TYPE}/Shell_Lab.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+FINAL_IMAGE=dist/${CND_CONF}/${IMAGE_TYPE}/Shell.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 else
 IMAGE_TYPE=production
 OUTPUT_SUFFIX=hex
 DEBUGGABLE_SUFFIX=elf
-FINAL_IMAGE=dist/${CND_CONF}/${IMAGE_TYPE}/Shell_Lab.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+FINAL_IMAGE=dist/${CND_CONF}/${IMAGE_TYPE}/Shell.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 endif
 
 # Object Directory
@@ -45,11 +45,11 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/17176491/heap_2.o ${OBJECTDIR}/_ext/1481540018/list.o ${OBJECTDIR}/_ext/1642425384/port.o ${OBJECTDIR}/_ext/1642425384/port_asm.o ${OBJECTDIR}/_ext/1481540018/queue.o ${OBJECTDIR}/_ext/1481540018/tasks.o ${OBJECTDIR}/src/led.o ${OBJECTDIR}/src/main.o ${OBJECTDIR}/src/MainControl.o ${OBJECTDIR}/src/Uart.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/17176491/heap_2.o.d ${OBJECTDIR}/_ext/1481540018/list.o.d ${OBJECTDIR}/_ext/1642425384/port.o.d ${OBJECTDIR}/_ext/1642425384/port_asm.o.d ${OBJECTDIR}/_ext/1481540018/queue.o.d ${OBJECTDIR}/_ext/1481540018/tasks.o.d ${OBJECTDIR}/src/led.o.d ${OBJECTDIR}/src/main.o.d ${OBJECTDIR}/src/MainControl.o.d ${OBJECTDIR}/src/Uart.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/17176491/heap_2.o ${OBJECTDIR}/_ext/1481540018/list.o ${OBJECTDIR}/_ext/1642425384/port.o ${OBJECTDIR}/_ext/1642425384/port_asm.o ${OBJECTDIR}/_ext/1481540018/queue.o ${OBJECTDIR}/_ext/1481540018/tasks.o ${OBJECTDIR}/src/led.o ${OBJECTDIR}/src/main.o ${OBJECTDIR}/src/UartDriver.o ${OBJECTDIR}/src/shell.o ${OBJECTDIR}/src/simple_stack.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/17176491/heap_2.o.d ${OBJECTDIR}/_ext/1481540018/list.o.d ${OBJECTDIR}/_ext/1642425384/port.o.d ${OBJECTDIR}/_ext/1642425384/port_asm.o.d ${OBJECTDIR}/_ext/1481540018/queue.o.d ${OBJECTDIR}/_ext/1481540018/tasks.o.d ${OBJECTDIR}/src/led.o.d ${OBJECTDIR}/src/main.o.d ${OBJECTDIR}/src/UartDriver.o.d ${OBJECTDIR}/src/shell.o.d ${OBJECTDIR}/src/simple_stack.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/_ext/17176491/heap_2.o ${OBJECTDIR}/_ext/1481540018/list.o ${OBJECTDIR}/_ext/1642425384/port.o ${OBJECTDIR}/_ext/1642425384/port_asm.o ${OBJECTDIR}/_ext/1481540018/queue.o ${OBJECTDIR}/_ext/1481540018/tasks.o ${OBJECTDIR}/src/led.o ${OBJECTDIR}/src/main.o ${OBJECTDIR}/src/MainControl.o ${OBJECTDIR}/src/Uart.o
+OBJECTFILES=${OBJECTDIR}/_ext/17176491/heap_2.o ${OBJECTDIR}/_ext/1481540018/list.o ${OBJECTDIR}/_ext/1642425384/port.o ${OBJECTDIR}/_ext/1642425384/port_asm.o ${OBJECTDIR}/_ext/1481540018/queue.o ${OBJECTDIR}/_ext/1481540018/tasks.o ${OBJECTDIR}/src/led.o ${OBJECTDIR}/src/main.o ${OBJECTDIR}/src/UartDriver.o ${OBJECTDIR}/src/shell.o ${OBJECTDIR}/src/simple_stack.o
 
 
 CFLAGS=
@@ -66,7 +66,7 @@ LDLIBSOPTIONS=
 FIXDEPS=fixDeps
 
 .build-conf:  ${BUILD_SUBPROJECTS}
-	${MAKE} ${MAKE_OPTIONS} -f nbproject/Makefile-default.mk dist/${CND_CONF}/${IMAGE_TYPE}/Shell_Lab.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+	${MAKE} ${MAKE_OPTIONS} -f nbproject/Makefile-default.mk dist/${CND_CONF}/${IMAGE_TYPE}/Shell.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 
 MP_PROCESSOR_OPTION=32MX360F512L
 MP_LINKER_FILE_OPTION=
@@ -132,15 +132,20 @@ ${OBJECTDIR}/src/main.o: src/main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/src/main.o.d 
 	@${FIXDEPS} "${OBJECTDIR}/src/main.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PIC32MXSK=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"./include" -I"../FreeRTOS/FreeRTOSV7.4.0/FreeRTOS/Source/portable/MPLAB/PIC32MX" -I"../FreeRTOS/FreeRTOSV7.4.0/FreeRTOS/Source/include" -MMD -MF "${OBJECTDIR}/src/main.o.d" -o ${OBJECTDIR}/src/main.o src/main.c   
 	
-${OBJECTDIR}/src/MainControl.o: src/MainControl.c  nbproject/Makefile-${CND_CONF}.mk
+${OBJECTDIR}/src/UartDriver.o: src/UartDriver.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/src 
-	@${RM} ${OBJECTDIR}/src/MainControl.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/src/MainControl.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PIC32MXSK=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"./include" -I"../FreeRTOS/FreeRTOSV7.4.0/FreeRTOS/Source/portable/MPLAB/PIC32MX" -I"../FreeRTOS/FreeRTOSV7.4.0/FreeRTOS/Source/include" -MMD -MF "${OBJECTDIR}/src/MainControl.o.d" -o ${OBJECTDIR}/src/MainControl.o src/MainControl.c   
+	@${RM} ${OBJECTDIR}/src/UartDriver.o.d 
+	@${FIXDEPS} "${OBJECTDIR}/src/UartDriver.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PIC32MXSK=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"./include" -I"../FreeRTOS/FreeRTOSV7.4.0/FreeRTOS/Source/portable/MPLAB/PIC32MX" -I"../FreeRTOS/FreeRTOSV7.4.0/FreeRTOS/Source/include" -MMD -MF "${OBJECTDIR}/src/UartDriver.o.d" -o ${OBJECTDIR}/src/UartDriver.o src/UartDriver.c   
 	
-${OBJECTDIR}/src/Uart.o: src/Uart.c  nbproject/Makefile-${CND_CONF}.mk
+${OBJECTDIR}/src/shell.o: src/shell.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/src 
-	@${RM} ${OBJECTDIR}/src/Uart.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/src/Uart.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PIC32MXSK=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"./include" -I"../FreeRTOS/FreeRTOSV7.4.0/FreeRTOS/Source/portable/MPLAB/PIC32MX" -I"../FreeRTOS/FreeRTOSV7.4.0/FreeRTOS/Source/include" -MMD -MF "${OBJECTDIR}/src/Uart.o.d" -o ${OBJECTDIR}/src/Uart.o src/Uart.c   
+	@${RM} ${OBJECTDIR}/src/shell.o.d 
+	@${FIXDEPS} "${OBJECTDIR}/src/shell.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PIC32MXSK=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"./include" -I"../FreeRTOS/FreeRTOSV7.4.0/FreeRTOS/Source/portable/MPLAB/PIC32MX" -I"../FreeRTOS/FreeRTOSV7.4.0/FreeRTOS/Source/include" -MMD -MF "${OBJECTDIR}/src/shell.o.d" -o ${OBJECTDIR}/src/shell.o src/shell.c   
+	
+${OBJECTDIR}/src/simple_stack.o: src/simple_stack.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/src 
+	@${RM} ${OBJECTDIR}/src/simple_stack.o.d 
+	@${FIXDEPS} "${OBJECTDIR}/src/simple_stack.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PIC32MXSK=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"./include" -I"../FreeRTOS/FreeRTOSV7.4.0/FreeRTOS/Source/portable/MPLAB/PIC32MX" -I"../FreeRTOS/FreeRTOSV7.4.0/FreeRTOS/Source/include" -MMD -MF "${OBJECTDIR}/src/simple_stack.o.d" -o ${OBJECTDIR}/src/simple_stack.o src/simple_stack.c   
 	
 else
 ${OBJECTDIR}/_ext/17176491/heap_2.o: ../FreeRTOS/FreeRTOSV7.4.0/FreeRTOS/Source/portable/MemMang/heap_2.c  nbproject/Makefile-${CND_CONF}.mk
@@ -178,15 +183,20 @@ ${OBJECTDIR}/src/main.o: src/main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/src/main.o.d 
 	@${FIXDEPS} "${OBJECTDIR}/src/main.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"./include" -I"../FreeRTOS/FreeRTOSV7.4.0/FreeRTOS/Source/portable/MPLAB/PIC32MX" -I"../FreeRTOS/FreeRTOSV7.4.0/FreeRTOS/Source/include" -MMD -MF "${OBJECTDIR}/src/main.o.d" -o ${OBJECTDIR}/src/main.o src/main.c   
 	
-${OBJECTDIR}/src/MainControl.o: src/MainControl.c  nbproject/Makefile-${CND_CONF}.mk
+${OBJECTDIR}/src/UartDriver.o: src/UartDriver.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/src 
-	@${RM} ${OBJECTDIR}/src/MainControl.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/src/MainControl.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"./include" -I"../FreeRTOS/FreeRTOSV7.4.0/FreeRTOS/Source/portable/MPLAB/PIC32MX" -I"../FreeRTOS/FreeRTOSV7.4.0/FreeRTOS/Source/include" -MMD -MF "${OBJECTDIR}/src/MainControl.o.d" -o ${OBJECTDIR}/src/MainControl.o src/MainControl.c   
+	@${RM} ${OBJECTDIR}/src/UartDriver.o.d 
+	@${FIXDEPS} "${OBJECTDIR}/src/UartDriver.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"./include" -I"../FreeRTOS/FreeRTOSV7.4.0/FreeRTOS/Source/portable/MPLAB/PIC32MX" -I"../FreeRTOS/FreeRTOSV7.4.0/FreeRTOS/Source/include" -MMD -MF "${OBJECTDIR}/src/UartDriver.o.d" -o ${OBJECTDIR}/src/UartDriver.o src/UartDriver.c   
 	
-${OBJECTDIR}/src/Uart.o: src/Uart.c  nbproject/Makefile-${CND_CONF}.mk
+${OBJECTDIR}/src/shell.o: src/shell.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/src 
-	@${RM} ${OBJECTDIR}/src/Uart.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/src/Uart.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"./include" -I"../FreeRTOS/FreeRTOSV7.4.0/FreeRTOS/Source/portable/MPLAB/PIC32MX" -I"../FreeRTOS/FreeRTOSV7.4.0/FreeRTOS/Source/include" -MMD -MF "${OBJECTDIR}/src/Uart.o.d" -o ${OBJECTDIR}/src/Uart.o src/Uart.c   
+	@${RM} ${OBJECTDIR}/src/shell.o.d 
+	@${FIXDEPS} "${OBJECTDIR}/src/shell.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"./include" -I"../FreeRTOS/FreeRTOSV7.4.0/FreeRTOS/Source/portable/MPLAB/PIC32MX" -I"../FreeRTOS/FreeRTOSV7.4.0/FreeRTOS/Source/include" -MMD -MF "${OBJECTDIR}/src/shell.o.d" -o ${OBJECTDIR}/src/shell.o src/shell.c   
+	
+${OBJECTDIR}/src/simple_stack.o: src/simple_stack.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/src 
+	@${RM} ${OBJECTDIR}/src/simple_stack.o.d 
+	@${FIXDEPS} "${OBJECTDIR}/src/simple_stack.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"./include" -I"../FreeRTOS/FreeRTOSV7.4.0/FreeRTOS/Source/portable/MPLAB/PIC32MX" -I"../FreeRTOS/FreeRTOSV7.4.0/FreeRTOS/Source/include" -MMD -MF "${OBJECTDIR}/src/simple_stack.o.d" -o ${OBJECTDIR}/src/simple_stack.o src/simple_stack.c   
 	
 endif
 
@@ -199,15 +209,15 @@ endif
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: link
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-dist/${CND_CONF}/${IMAGE_TYPE}/Shell_Lab.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk    
+dist/${CND_CONF}/${IMAGE_TYPE}/Shell.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk    
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
-	${MP_CC} $(MP_EXTRA_LD_PRE)  -mdebugger -D__MPLAB_DEBUGGER_PIC32MXSK=1 -mprocessor=$(MP_PROCESSOR_OPTION)  -o dist/${CND_CONF}/${IMAGE_TYPE}/Shell_Lab.${IMAGE_TYPE}.${OUTPUT_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}          -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION),--defsym=__ICD2RAM=1,--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1,--defsym=__MPLAB_DEBUGGER_PIC32MXSK=1
+	${MP_CC} $(MP_EXTRA_LD_PRE)  -mdebugger -D__MPLAB_DEBUGGER_PIC32MXSK=1 -mprocessor=$(MP_PROCESSOR_OPTION)  -o dist/${CND_CONF}/${IMAGE_TYPE}/Shell.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}          -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION),--defsym=__ICD2RAM=1,--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1,--defsym=__MPLAB_DEBUGGER_PIC32MXSK=1
 	
 else
-dist/${CND_CONF}/${IMAGE_TYPE}/Shell_Lab.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   
+dist/${CND_CONF}/${IMAGE_TYPE}/Shell.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
-	${MP_CC} $(MP_EXTRA_LD_PRE)  -mprocessor=$(MP_PROCESSOR_OPTION)  -o dist/${CND_CONF}/${IMAGE_TYPE}/Shell_Lab.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}          -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION)
-	${MP_CC_DIR}\\xc32-bin2hex dist/${CND_CONF}/${IMAGE_TYPE}/Shell_Lab.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX} 
+	${MP_CC} $(MP_EXTRA_LD_PRE)  -mprocessor=$(MP_PROCESSOR_OPTION)  -o dist/${CND_CONF}/${IMAGE_TYPE}/Shell.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}          -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION)
+	${MP_CC_DIR}\\xc32-bin2hex dist/${CND_CONF}/${IMAGE_TYPE}/Shell.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX} 
 endif
 
 

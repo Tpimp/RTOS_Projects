@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=Shell Lab
+PROJECTNAME=Shell.X
 
 # Active Configuration
 DEFAULTCONF=default

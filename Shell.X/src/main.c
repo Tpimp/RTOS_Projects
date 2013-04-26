@@ -77,20 +77,14 @@
 #include <FreeRTOS.h>
 #include "task.h"
 #include "queue.h"
-#include "MainControl.h"
 #include "Data_Structs.h"
 #include "led.h"
-#include "Uart.h"
+#include "UartDriver.h"
+#include "shell.h"
 /* Hardware configuration. */
 #pragma config FPLLMUL = MUL_20, FPLLIDIV = DIV_2, FPLLODIV = DIV_1, FWDTEN = OFF
 #pragma config POSCMOD = HS, FNOSC = PRIPLL, FPBDIV = DIV_2, CP = OFF, BWP = OFF
 #pragma config PWP = OFF /*, UPLLEN = OFF, FSRSSEL = PRIORITY_7 */
-
-/* Time is measured in "ticks".  The tick rate is set by the configTICK_RATE_HZ
-configuration parameter (defined in FreeRTOSConfig.h).  If configTICK_RATE_HZ
-is equal to or less than 1000 (1KHz) then portTICK_RATE_MS can be used to 
-convert a time in milliseconds into a time in ticks. */
-#define mainTOGGLE_PERIOD ( 200UL / portTICK_RATE_MS )
 
 
 /* Performs the hardware initialisation to ready the hardware to run this example */
@@ -119,95 +113,40 @@ int main(void)
     xTaskHandle LED_TWO;
     xTaskHandle LED_THREE;
 
-    xTaskHandle CONTROL_ONE;
-    xTaskHandle CONTROL_TWO;
-    xTaskHandle CONTROL_THREE;
     
     // create MY_LED_TASK
     xTaskCreate(StaticLED_FlashTask, "MY_LED_TASK1",
                                 configMINIMAL_STACK_SIZE,
-                                &LED_DATA_ONE, 1, &LED_ONE);
+                                &LED_DATA_ONE, 2, &LED_ONE);
 
     xTaskCreate(StaticLED_FlashTask, "MY_LED_TASK2",
                                 configMINIMAL_STACK_SIZE,
-                                &LED_DATA_TWO, 1, &LED_TWO);
+                                &LED_DATA_TWO, 2, &LED_TWO);
     
     xTaskCreate(StaticLED_FlashTask, "MY_LED_TASK3",
                                 configMINIMAL_STACK_SIZE,
-                                &LED_DATA_THREE, 1, &LED_THREE);
+                                &LED_DATA_THREE, 2, &LED_THREE);
     
-    // Begin creating Control Tasks 
+    SHELL_TASK_DATA.LED_QUEUES[0] = LED_DATA_ONE.My_Queue;
+    SHELL_TASK_DATA.LED_TASKS[0] = LED_ONE;
+    SHELL_TASK_DATA.LED_QUEUES[1] = LED_DATA_TWO.My_Queue;
+    SHELL_TASK_DATA.LED_TASKS[1] = LED_TWO;
+    SHELL_TASK_DATA.LED_QUEUES[1] = LED_DATA_THREE.My_Queue;
+    SHELL_TASK_DATA.LED_TASKS[1] = LED_THREE;
+    // first initialize MainControl Static Global str (UART_STR)
+   
+    xTaskHandle UART_TASK_HANDLE;
+    xTaskCreate(StaticUartTask, "MY_UART_TASK", configMINIMAL_STACK_SIZE,
+                &ENABLED_MODULE_DATA,3, &UART_TASK_HANDLE);
+    ENABLED_MODULE_DATA.UART_TX_QUEUE  = xQueueCreate(5,(sizeof(char)*255));
+    ENABLED_MODULE_DATA.PARAMETER_QUEUE = xQueueCreate(5,(sizeof(char)*255));
     
-    // creat the UART QUEUE and Task
-    UART_TX_DATA_t UART_TX_DATA;
-    UART_TX_DATA.My_Queue = xQueueCreate(5,(sizeof(char)*50));
-    // creat the UART QUEUE and Task
-
-    UART_RX_DATA_t UART_RX_DATA;
-    UART_RX_DATA.My_Queue = xQueueCreate(5,(sizeof(char)*255));
-    
-    // Create tasls to manage UART I/O
-    xTaskHandle UART_TX_HANDLE;
-    xTaskHandle UART_RX_HANDLE;
-
-    xTaskCreate(StaticUARTSendQueuedTask, "UART_Tx", configMINIMAL_STACK_SIZE,
-                &UART_TX_DATA,1, &UART_TX_HANDLE);
-    xTaskCreate(StaticUARTRxPoll, "UART_Rx", configMINIMAL_STACK_SIZE,
-                &UART_RX_DATA,1, &UART_RX_HANDLE);
-
-    CONTROL_TASK_DATA_t CONTROL_DATA_ONE;
-    CONTROL_DATA_ONE.LED_QUEUE = LED_DATA_ONE.My_Queue;
-    CONTROL_DATA_ONE.UART_TX_QUEUE = UART_TX_DATA.My_Queue;
-    CONTROL_DATA_ONE.UART_RX_QUEUE = UART_RX_DATA.My_Queue;
-    CONTROL_DATA_ONE.LED_NUMBER = '2'; // set on transition to two
-
-    CONTROL_TASK_DATA_t CONTROL_DATA_TWO;
-    CONTROL_DATA_TWO.LED_QUEUE = LED_DATA_TWO.My_Queue;
-    CONTROL_DATA_TWO.UART_TX_QUEUE = UART_TX_DATA.My_Queue;
-    CONTROL_DATA_TWO.UART_RX_QUEUE = UART_RX_DATA.My_Queue;
-    CONTROL_DATA_TWO.LED_NUMBER = '3';
-
-    CONTROL_TASK_DATA_t CONTROL_DATA_THREE;
-    CONTROL_DATA_THREE.LED_QUEUE = LED_DATA_THREE.My_Queue;
-    CONTROL_DATA_THREE.UART_TX_QUEUE = UART_TX_DATA.My_Queue;
-    CONTROL_DATA_THREE.UART_RX_QUEUE = UART_RX_DATA.My_Queue;
-    CONTROL_DATA_THREE.LED_NUMBER = '1';
-
-    CONTROL_DATA_ONE.NEXT_CONTROL = &CONTROL_TWO;
-    CONTROL_DATA_TWO.NEXT_CONTROL = &CONTROL_THREE;
-    CONTROL_DATA_THREE.NEXT_CONTROL = &CONTROL_ONE;
-
-    xTaskCreate(StaticMainControl,
-                "MainControl",
-                configMINIMAL_STACK_SIZE,
-                &CONTROL_DATA_ONE,
-                1,
-                &CONTROL_ONE);
-
-    xTaskCreate(StaticMainControl,
-                "MainControl",
-                configMINIMAL_STACK_SIZE,
-                &CONTROL_DATA_TWO,
-                1,
-                &CONTROL_TWO);
-    vTaskSuspend(CONTROL_TWO);
-
-    xTaskCreate(StaticMainControl,
-                "MainControl",
-                configMINIMAL_STACK_SIZE,
-                &CONTROL_DATA_THREE,
-                1,
-                &CONTROL_THREE);
-    vTaskSuspend(CONTROL_THREE);
-
-    char local_message[50];
-    strcpy(local_message, UART_STR);
-    local_message[LED_NUM_POS] = '1';
-
-    xQueueSendToBack(CONTROL_DATA_ONE.UART_TX_QUEUE,
-                local_message,
-                (10 / portTICK_RATE_MS));
-
+    xTaskHandle Shell;
+    xTaskCreate(StaticShellMainTask, "Shell",configMINIMAL_STACK_SIZE, 0,
+                1,&Shell);
+   
+    xQueueReceive(ENABLED_MODULE_DATA.PARAMETER_QUEUE,
+                        (void * const)PreAmble,0);
     /* Start the scheduler so the tasks start executing.  This function should not return. */
     vTaskStartScheduler();
 }

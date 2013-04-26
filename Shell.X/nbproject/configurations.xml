@@ -15,9 +15,10 @@
       </logicalFolder>
       <itemPath>include/FreeRTOSConfig.h</itemPath>
       <itemPath>include/led.h</itemPath>
-      <itemPath>include/MainControl.h</itemPath>
       <itemPath>include/Data_Structs.h</itemPath>
-      <itemPath>include/Uart.h</itemPath>
+      <itemPath>include/UartDriver.h</itemPath>
+      <itemPath>include/shell.h</itemPath>
+      <itemPath>include/simple_stack.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -36,8 +37,9 @@
       </logicalFolder>
       <itemPath>src/led.c</itemPath>
       <itemPath>src/main.c</itemPath>
-      <itemPath>src/MainControl.c</itemPath>
-      <itemPath>src/Uart.c</itemPath>
+      <itemPath>src/UartDriver.c</itemPath>
+      <itemPath>src/shell.c</itemPath>
+      <itemPath>src/simple_stack.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -147,6 +149,7 @@
         <property key="legacy-libc" value="false"/>
       </C32Global>
       <SKDEPIC32PlatformTool>
+        <property key="debugoptions.useswbreakpoints" value="false"/>
       </SKDEPIC32PlatformTool>
     </conf>
   </confs>

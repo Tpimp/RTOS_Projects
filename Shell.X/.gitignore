@@ -19,3 +19,7 @@
 
 # Free RTOS OS Files
 *FreeRTOS*
+
+#Mplab directories
+*build*
+*dist*
